@@ -12,7 +12,15 @@ defmodule StcWeb.Components do
 
     ~H"""
     <header class="stc-header">
-      <div class="stc-logo">[STC]</div>
+      <div class="stc-logo">
+        <pre class="stc-fox">    ▂   ▂
+       ▟█▙ ▟█▙
+      ▟███▄███▙
+    ▟███████████▙
+    ▀██▄ ███ ▄██▀
+      ▜███████▛
+        ▜█▄█▛    </pre>
+      </div>
       <nav>
         <ul class="stc-nav">
           <li><.link navigate={"#{@base}/"} class={active(@current, :dashboard)}>/dashboard</.link></li>
@@ -161,7 +169,7 @@ defmodule StcWeb.Components do
   defp task_border_style(events) do
     types = Enum.map(events, &StcWeb.Inspector.event_type_name/1) |> MapSet.new()
     cond do
-      "completed" in types -> "border-color: var(--green)"
+      "completed" in types -> "border-color: var(--pink)"
       "failed"    in types -> "border-color: var(--red)"
       "started"   in types -> "border-color: var(--blue)"
       true -> ""
@@ -172,9 +180,9 @@ defmodule StcWeb.Components do
   defp task_dot_class(events) do
     types = Enum.map(events, &StcWeb.Inspector.event_type_name/1) |> MapSet.new()
     cond do
-      "completed" in types -> "dot-green"
+      "completed" in types -> "dot-pink"
       "failed"    in types -> "dot-red"
-      "started"   in types -> "dot-green"
+      "started"   in types -> "dot-pink"
       true -> "dot-dim"
     end
   end

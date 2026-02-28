@@ -71,7 +71,7 @@ defmodule StcWeb.ProgramsLive do
                     >
                       <td>
                         <%= if @selected_id == id do %>
-                          <span style="color:var(--green)">▶ </span>
+                          <span style="color:var(--amber)">▶ </span>
                         <% end %>
                         <span class="id"><%= id %></span>
                       </td>

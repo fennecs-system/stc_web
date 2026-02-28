@@ -14,6 +14,16 @@ defmodule StcWeb.Dev.Endpoint do
   plug Phoenix.LiveReloader
   plug Phoenix.CodeReloader
 
+  plug Plug.Static,
+    at: "/assets/phoenix",
+    from: {:phoenix, "priv/static"},
+    only: ["phoenix.js"]
+
+  plug Plug.Static,
+    at: "/assets/lv",
+    from: {:phoenix_live_view, "priv/static"},
+    only: ["phoenix_live_view.js"]
+
   plug Plug.Session, @session_options
   plug StcWeb.Dev.Router
 end

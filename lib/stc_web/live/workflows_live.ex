@@ -3,7 +3,6 @@ defmodule StcWeb.WorkflowsLive do
 
   import StcWeb.Components
   alias StcWeb.Inspector
-  alias Phoenix.LiveView.JS
 
   @refresh_ms 2_000
 
@@ -29,6 +28,11 @@ defmodule StcWeb.WorkflowsLive do
 
   def handle_params(_params, _uri, socket) do
     {:noreply, assign(socket, selected_id: nil, dag: nil, events_by_task: %{})}
+  end
+
+  @impl true
+  def handle_event("select_workflow", %{"id" => id}, socket) do
+    {:noreply, maybe_load_workflow(socket, id)}
   end
 
   @impl true
@@ -99,12 +103,13 @@ defmodule StcWeb.WorkflowsLive do
                 <tbody>
                   <%= for {id, status} <- @workflows do %>
                     <tr
-                      phx-click={JS.patch("#{@stc_prefix}/workflows/#{id}")}
+                      phx-click="select_workflow"
+                      phx-value-id={id}
                       style={"cursor:pointer;#{if @selected_id == id, do: "background:var(--bg-2)"}"}
                     >
                       <td style="width:16px; padding-right:0">
                         <%= if @selected_id == id do %>
-                          <span style="color:var(--green)">▶</span>
+                          <span style="color:var(--amber)">▶</span>
                         <% end %>
                       </td>
                       <td><span class="id"><%= id %></span></td>
