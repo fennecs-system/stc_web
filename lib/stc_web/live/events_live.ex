@@ -32,12 +32,12 @@ defmodule StcWeb.EventsLive do
 
   @impl true
   def handle_event("next_page", _params, socket) do
-    %{current_cursor: cursor, page: page, cursor_stack: stack} = socket.assigns
+    %{next_cursor: next_cursor, current_cursor: cursor, page: page, cursor_stack: stack} = socket.assigns
 
     socket =
       socket
       |> assign(page: page + 1, cursor_stack: [cursor | stack])
-      |> load_page(cursor, page + 1)
+      |> load_page(next_cursor, page + 1)
 
     {:noreply, socket}
   end
@@ -71,10 +71,8 @@ defmodule StcWeb.EventsLive do
   end
 
   defp load_page(socket, cursor, _page) do
-    {:ok, events, next_cursor} = Inspector.fetch_events(cursor, limit: @page_size + 1)
-
-    has_next = length(events) > @page_size
-    events = Enum.take(events, @page_size)
+    {:ok, events, next_cursor} = Inspector.fetch_events(cursor, limit: @page_size)
+    {:ok, peek, _} = Inspector.fetch_events(next_cursor, limit: 1)
 
     filtered = apply_filters(events, socket.assigns)
 
@@ -83,7 +81,7 @@ defmodule StcWeb.EventsLive do
       raw_events: events,
       next_cursor: next_cursor,
       current_cursor: cursor,
-      has_next: has_next
+      has_next: peek != []
     )
   end
 
@@ -158,9 +156,13 @@ defmodule StcWeb.EventsLive do
               <% end %>
             </tbody>
           </table>
+        <% end %>
 
+        <%= if @page > 1 || @has_next do %>
           <div class="stc-pagination">
-            <span>page <%= @page %></span>
+            <span class="dim">page <%= @page %></span>
+            <span class="dim">·</span>
+            <span class="dim"><%= length(@events) %> shown</span>
             <%= if @page > 1 do %>
               <button class="stc-btn" phx-click="prev_page">← prev</button>
             <% end %>
