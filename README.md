@@ -2,4 +2,4 @@
 
 ## About
 
-stc_web provides a dashboard for monitoring stc events.
+stc_web is a wip phoenix dashboard for monitoring stc events.

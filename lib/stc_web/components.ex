@@ -13,13 +13,14 @@ defmodule StcWeb.Components do
     ~H"""
     <header class="stc-header">
       <div class="stc-logo">
-        <pre class="stc-fox">    ▂   ▂
-       ▟█▙ ▟█▙
-      ▟███▄███▙
+        <pre class="stc-fox">
+     ▃         ▃
+     ██▙▂   ▂▟██
+     █████▄█████
     ▟███████████▙
     ▀██▄ ███ ▄██▀
       ▜███████▛
-        ▜█▄█▛    </pre>
+        ▜█▄█▛</pre>
       </div>
       <nav>
         <ul class="stc-nav">
