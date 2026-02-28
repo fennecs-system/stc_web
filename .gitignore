@@ -1,3 +1,5 @@
+.cache/
+.cache/*
 /_build/
 /deps/
 /doc/
